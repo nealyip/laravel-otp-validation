@@ -1,0 +1,35 @@
+{
+  "name": "nealyip/laravel-otp-validation",
+  "description": "Validate before making action with otp",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "neal.yip",
+      "email": "neal.yip@webssup.com"
+    }
+  ],
+  "require": {
+    "php": ">=7",
+    "illuminate/support": "~5.4.0",
+    "illuminate/cache": "~5.4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Nealyip\\LaravelOTPValidation\\": "src"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Nealyip\\LaravelOTPValidation\\Providers\\OTPServiceProvider"
+      ]
+    }
+  }
+}
