@@ -25,7 +25,7 @@ class RequestNotFoundException extends OTPValidationException
     public function __construct()
     {
 
-        parent::__construct(trans('otp_messages::messages.otp_not_available'));
+        parent::__construct(trans('otp_messages::messages.otp_not_found'));
     }
 
 }
