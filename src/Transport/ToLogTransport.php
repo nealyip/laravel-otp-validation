@@ -24,6 +24,6 @@ class ToLogTransport implements TransportInterface
     public function send($phone_number, $message)
     {
 
-        error_log(trans('otp_messages.sms_to_email_intro', ['mobile' => $phone_number]) . PHP_EOL . $message . PHP_EOL);
+        error_log(trans('otp_messages::messages.sms_to_email_intro', ['mobile' => $phone_number]) . PHP_EOL . $message . PHP_EOL);
     }
 }
