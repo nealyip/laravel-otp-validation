@@ -95,6 +95,7 @@ class GenericOTP implements OTPInterface
      * @param Payload $payload
      *
      * @return Payload
+     * @throws NotAvailableExceptions
      */
     protected function _send(Payload $payload)
     {
@@ -106,6 +107,7 @@ class GenericOTP implements OTPInterface
         $payload->expire    = time() + $this->_expiry;
         $payload->available = time() + $this->_available;
         $payload->password  = $this->_password($payload->key);
+        $payload->attempt   = 0;
 
         $this->_cache::put($payload->key, $payload, $this->_expiry / 60);
         $message = str_replace(':otp', $payload->password, $payload->message);
@@ -211,7 +213,11 @@ class GenericOTP implements OTPInterface
 
 
     /**
+     * @param OTPTarget $target
+     * @param string    $scene
+     *
      * @return string
+     * @throws \Exception
      */
     protected function _number(OTPTarget $target, $scene)
     {
