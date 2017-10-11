@@ -110,7 +110,7 @@ class GenericOTP implements OTPInterface
         $payload->attempt   = 0;
 
         $this->_cache::put($payload->key, $payload, $this->_expiry / 60);
-        $message = str_replace(':otp', $payload->password, $payload->message);
+        $message = str_replace([':otp', ':expire'], [$payload->password, date('H:i:s', $this->_expiry)], $payload->message);
         $this->_transport->send($payload->to, $message);
 
         return $payload;

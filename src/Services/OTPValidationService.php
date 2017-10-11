@@ -106,6 +106,7 @@ class OTPValidationService
      * @param string $hash string containing scene_seed
      *
      * @return Payload
+     * @throws ExpireException
      */
     public function resend($hash)
     {

@@ -27,7 +27,7 @@ interface OTPInterface
      * @param OTPTarget $target  Send to target
      * @param string    $seed    md5 hash 32 bytes seed
      * @param string    $scene   Scene passed to OTPTarget interface and differentiate amount scenes
-     * @param string    $message Message body with :otp placeholder
+     * @param string    $message Message body with :otp, :expire placeholder
      * @param array     $data    Extra information stored to cache
      *
      * @return Payload
