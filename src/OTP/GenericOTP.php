@@ -168,14 +168,16 @@ class GenericOTP implements OTPInterface
             throw new ExpireException();
         }
 
+        $this->_checkTooManyAttempts($cache);
+
         if (strcmp($cache->password, $password) !== 0) {
             // error
-            if ($this->tooManyAttempts($cache)) {
-                throw new TooManyAttemptsException();
-            }
             $cache->attempt++;
 
             $this->_cache::put($hash, $cache, $cache->expire);
+
+            $this->_checkTooManyAttempts($cache);
+
             throw new FailAttemptException();
         }
 
@@ -231,15 +233,27 @@ class GenericOTP implements OTPInterface
     }
 
     /**
+     * @param Payload $payload
+     *
+     * @throws TooManyAttemptsException
+     */
+    protected function _checkTooManyAttempts(Payload $payload){
+
+        if ($this->_tooManyAttempts($payload)) {
+            throw new TooManyAttemptsException();
+        }
+    }
+
+    /**
      * Is too many attempt?
      *
      * @param Payload $payload
      *
      * @return bool
      */
-    protected function tooManyAttempts(Payload $payload)
+    protected function _tooManyAttempts(Payload $payload)
     {
-        return $payload->attempt + 1 >= $this->_maxAttempt;
+        return $payload->attempt >= $this->_maxAttempt;
     }
 
     /**
