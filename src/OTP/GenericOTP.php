@@ -239,7 +239,7 @@ class GenericOTP implements OTPInterface
      */
     protected function tooManyAttempts(Payload $payload)
     {
-        return $payload->attempt >= $this->_maxAttempt;
+        return $payload->attempt + 1 >= $this->_maxAttempt;
     }
 
     /**
