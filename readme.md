@@ -109,7 +109,7 @@ use Nealyip\LaravelOTPValidation\Services\OTPValidationService;
 
 class FormController{
 
-protected $service;
+protected $_service;
 
 public function __construct(OTPValidationService $service) {
     $this->_service = $service;
