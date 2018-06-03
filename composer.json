@@ -2,6 +2,7 @@
   "name": "nealyip/laravel-otp-validation",
   "description": "Validate before making action with otp",
   "license": "MIT",
+  "homepage": "https://github.com/nealyip/laravel-otp-validation",
   "authors": [
     {
       "name": "neal.yip",

@@ -2,6 +2,10 @@
 The packages handle otp in various way for you. It is designed for modal dialog and called by ajax.
 
 ## Install ##
+```
+composer require nealyip/laravel-otp-validation
+```
+
 Add this provider to config/app.php
 ```php
 Nealyip\LaravelOTPValidation\Providers\OTPServiceProvider::class,
