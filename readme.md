@@ -22,9 +22,9 @@ php .\artisan vendor:publish --provider=Nealyip\LaravelOTPValidation\Providers\O
 You may translate error message under resources/lang/vendor/otp_messages
 
 By default it use log transport service,
-you may change it to provided mail service or write your own sms provider.
+you may change it to the given mail service or write your own sms provider.
 
-Simply change config/otp_validation.php
+For the given mail service, simply change config/otp_validation.php
 ```php
 // for example
 'transport'    => \Nealyip\LaravelOTPValidation\Transport\MailTransport::class,
@@ -33,19 +33,19 @@ for the default mail transport class, define your mail driver, from address and 
 (MAIL_FROM_ADDRESS and MAIL_FROM_NAME for smtp)
 
 OTP_SEED
-you can change the seed for otp by changing OTP_SEED env
+you can change the seed for otp by changing OTP_SEED env  
 check otp_validation.php for more details
 
 ## Development ##
 
-To implement your own transport interface, simple implement the **Nealyip\LaravelOTPValidation\Transport\TransportInterface** interface.
+To implement your own transport interface, simply implement the **Nealyip\LaravelOTPValidation\Transport\TransportInterface** interface.
 
 and change your config file.
 
 ## How to use ##
 
 First you are required to implement **Nealyip\LaravelOTPValidation\OTP\OTPTarget** to your user model.
-It will provides the target user mobile number and email address for otp transportation.
+Implement the target user mobile number and email address functions for otp transportation.
 
 ```php
 namespace App;
@@ -70,7 +70,7 @@ use Nealyip\LaravelOTPValidation\Services\OTPValidationService;
 
 class FormController{
 
-protected $service;
+protected $_service;
 
 public function __construct(OTPValidationService $service) {
     $this->_service = $service;
@@ -102,7 +102,7 @@ POST /backend/otp_validation/{key}
 
 if the otp is correct it will return a success response with HTTP status code 200
 
-you can then use the otp to submit again
+you can then consume the otp
 
 ```php
 use Nealyip\LaravelOTPValidation\Services\OTPValidationService;
@@ -120,6 +120,7 @@ public function create(Request $request){
     
         $user = request()->user();
     if ($request->input('otp')) {
+        // WrongTargetException will be thrown if the otp is incorrect
         $this->_service->scene('changepassword')->consume($user, ['id' => $user->id], $request->input('otp'));    
         
         // success validate the otp
