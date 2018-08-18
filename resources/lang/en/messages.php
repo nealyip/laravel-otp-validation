@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'sms_to_email_intro'    => 'This is originally sent to :mobile but are not transported in email.',
+    'sms_to_email_intro'    => 'This is originally sent to :mobile but are now transported in email.',
     'otp_not_available'     => 'OTP is not available yet, please try it after :seconds seconds.',
     'otp_not_found'         => 'Your request is either not found or expired, please try again.',
     'otp_wrong_target'      => 'Your request does not belong to your identity.',
