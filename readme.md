@@ -85,7 +85,7 @@ public function create(){
 }
 ```
 
-And you may build a model from the client side and ask for the password.
+And you may build a modal dialog from the client side and ask for the password.
 
 To attempt a password,
 just call the routes, for example
