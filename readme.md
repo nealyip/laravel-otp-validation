@@ -107,7 +107,9 @@ Implement the target user mobile number and email address functions for otp tran
 ```php
 namespace App;
 
-class User implement Nealyip\LaravelOTPValidation\OTP\OTPTarget {
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable implement Nealyip\LaravelOTPValidation\OTP\OTPTarget {
 
     /**
      * Provide the email for the user used by the Email Provider, 
