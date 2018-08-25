@@ -109,7 +109,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implement Nealyip\LaravelOTPValidation\OTP\OTPTarget {
+class User extends Authenticatable implements Nealyip\LaravelOTPValidation\OTP\OTPTarget {
 
     /**
      * Provide the email for the user used by the Email Provider, 
