@@ -39,8 +39,57 @@ check otp_validation.php for more details
 ## Development ##
 
 To implement your own transport interface, simply implement the **Nealyip\LaravelOTPValidation\Transport\TransportInterface** interface.
+for example,
+```php
+namespace App\SMS\Transport;
 
-and change your config file.
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Nealyip\LaravelOTPValidation\Transport\TransportInterface;
+
+class SMSTransport implements TransportInterface {
+    /**
+     * @var Client 
+     */
+    private $_client;
+
+    public function __construct()
+    {
+        $this->_client = new Client();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function send($phone_number, $message)
+    {
+
+        $sms_url = 'https://someurl';
+        $parsed_url = parse_url($sms_url);
+        $host       = $parsed_url['host'];
+
+        try {
+
+            $this->_client->request('POST', $sms_url, [
+                'http_errors' => true,
+                'headers'     => [
+                    'Host'         => $host,
+                    'Authorization'=> 'Bearer ' . config('sms.auth_code') ,
+                    'Content-Type' => 'application/json',
+                    'Accept'       => 'application/json'
+                ],
+                'json'        => compact('phone_number', 'message')
+            ]);
+        } catch (GuzzleException $e) {
+            throw new \Exception(trans('error.fail_to_send'), 0, $e);
+        }
+    }
+}
+```
+and change your config file (config/otp_validation.php)  
+```php
+'transport'    => App\SMS\Transport\SMSTransport::class,
+```
 
 ## How to use ##
 
@@ -51,15 +100,51 @@ Implement the target user mobile number and email address functions for otp tran
 namespace App;
 
 class User implement Nealyip\LaravelOTPValidation\OTP\OTPTarget {
+
+    /**
+     * Provide the email for the user used by the Email Provider, 
+     * the return value may varies by the scene.
+     * May return empty string if you use only SMS otp.
+     *
+     * @param string $scene
+     * @return string
+     */
+    public function otpEmail($scene = null)
+    {
+
+        return $this->email;
+    }
+    
+    /**
+     * Provide the mobile phone number for the user used by the SMS Provider,
+     * the return value may varies by the scene.
+     *
+     * @param null $scene
+     * @return string
+     */
+    public function otpMobile($scene = null)
+    {
+
+        return $this->country_code . $this->area_code . $this->mobile_number;
+    }
+
+    /**
+     * A unique user id, for example
+     *
+     * @return string
+     */
+    public function otpIdentifier()
+    {
+        return $this->id;
+    }
+}
 ```
 
 Add routes for password attempt and resend request
 
 ```php
 Route::group(['prefix' => 'backend'], function(){
-
-otp_validation_routes();
-
+    otp_validation_routes();
 });
 ```
 
