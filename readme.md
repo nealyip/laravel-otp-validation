@@ -59,6 +59,14 @@ class SMSTransport implements TransportInterface {
     }
 
     /**
+     * @inheritDoc
+     */
+    public function type()
+    {
+        return static::TYPE_SMS;
+    }
+    
+    /**
      * @inheritdoc
      */
     public function send($phone_number, $message)
